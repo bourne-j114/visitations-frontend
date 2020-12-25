@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '@sapper/app';
-	import ArticleList from '../../_components/ArticleList/index.svelte';
+	import ArticleList from '../../_components/VisitForm/index.svelte';
 	import * as api from 'api.js';
 
 	export let profile;

@@ -18,8 +18,9 @@
 	let errors = null;
 
 	async function submit(event) {
+		console.log("*0000 >>> press submit")
 		const response = await post(`auth/login`, { email, password });
-
+		console.log('* >>> response = ', response)
 		// TODO handle network errors
 		errors = response.errors;
 
