@@ -12,10 +12,11 @@
 	let prison;
 	let visitors;
 	let prison_id = '';
-
+	let location = '';
 	async function submit(event) {
 		query = `prisons/get/${prison_id}`;
 		({prison, visitors} = await api.get(query, $session.user && $session.user.token));
+		selected = prison.location;
 	}
 </script>
 <div class="auth-page">
@@ -37,7 +38,7 @@
 {#if prison}
 
 	{#if prison.first_name !== null}
-		<Prison {prison} user={$session.user}/>
+		<Prison {prison} user={$session.user} bind:location/>
 		<VisitorPreview {visitors} user={$session.user}/>
 	{:else}
 		<div>

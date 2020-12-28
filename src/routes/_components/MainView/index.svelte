@@ -1,6 +1,6 @@
 <script>
 	import { stores } from '@sapper/app';
-	import VisitForm from '../VisitForm/index.svelte';
+	import SearchVisitForm from '../SearchVisitForm/index.svelte';
 
 	const { session } = stores();
 
@@ -16,5 +16,5 @@
 		</ul>
 	</div>
 
-	<VisitForm/>
+	<SearchVisitForm/>
 </div>
