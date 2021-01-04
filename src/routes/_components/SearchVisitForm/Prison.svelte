@@ -21,13 +21,17 @@
 			ชื่อผู้ต้องขัง
 			<hr>
 			<div class="tag-list">
-			{prison.first_name} {prison.last_name}  โทษ {prison.case_detail} จำคุก {prison.punish} แดน
+			{prison.first_name} {prison.last_name}
+				<br/>จำคุก {prison.punish}
+				<br/>แดน
 
 				<select bind:value={location} on:change|preventDefault="{saveLocation}">
 					{#each locations as location }
 						<option>{location}</option>
 					{/each}
 				</select> <span>คลิ๊กเปลี่ยนแดน</span>
+				<br/>
+				โทษ {prison.case_detail}
 			</div>
 
 			<span class="date">
