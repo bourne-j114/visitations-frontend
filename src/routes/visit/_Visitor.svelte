@@ -3,7 +3,7 @@
 	import ListErrors from '../_components/ListErrors.svelte';
 	import * as api from 'api.js';
 
-	export let visits;
+	export let visit;
 	export let slug;
 
 	let errors;
@@ -11,7 +11,7 @@
 	const { session } = stores();
 
 	async function submit() {
-		await api.post(`visits/save`, { visits }, $session.user && $session.user.token);
+		await api.post(`visits/save`, { visit }, $session.user && $session.user.token);
 	}
 
 	function enter(node, callback) {
@@ -38,14 +38,14 @@
 				<form>
 					<fieldset>
 						<fieldset class="form-group">
-							<input class="form-control form-control-lg" type="text" placeholder="รหัสผู้ต้องขัง" bind:value={visits.prison_id}>
+							<input class="form-control form-control-lg" type="text" placeholder="รหัสผู้ต้องขัง" bind:value={visit.prison_id}>
 						</fieldset>
 
 						<fieldset class="form-group">
-							<input class="form-control" type="text" placeholder="วันที่เยี่ยม" bind:value={visits.visit_date}>
+							<input class="form-control" type="text" placeholder="วันที่เยี่ยม" bind:value={visit.visit_date}>
 						</fieldset>
 						<fieldset class="form-group">
-							<input class="form-control" type="text" placeholder="รอบที่" bind:value={visits.round}>
+							<input class="form-control" type="text" placeholder="รอบที่" bind:value={visit.round}>
 						</fieldset>
 
 						<button class="btn btn-lg pull-xs-right btn-primary" type="button" on:click={submit}>
