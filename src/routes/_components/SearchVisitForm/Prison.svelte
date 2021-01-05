@@ -25,7 +25,7 @@
 		const response = await post(`visit/save`, { prison_id, visitor_name});
 		//if (typeof response["error"] )
 		if (typeof response["error"] !== undefined && response["error"] === 1 ) {
-			alert("มีขอเยี่ยมรายการขอเยี่ยมในสัปดาห์นี้แล้วค่ะ");
+			alert("มีรายการขอเยี่ยมในสัปดาห์นี้แล้วค่ะ");
 		}else{
 			alert("บันทึกรายการขอเยี่ยมเรียบร้อยค่ะ");
 		}
