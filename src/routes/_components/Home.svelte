@@ -1,6 +1,6 @@
 <script>
 	import MainView from './MainView/index.svelte';
-	let tab;
+
 </script>
 
 <svelte:head>
@@ -18,7 +18,7 @@
 
 	<div class="container page">
 		<div class="row">
-			<MainView  bind:tab />
+			<MainView  />
 
 		</div>
 	</div>
