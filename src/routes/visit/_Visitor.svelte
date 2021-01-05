@@ -1,5 +1,5 @@
 <script>
-	import { goto, stores } from '@sapper/app';
+	import { stores } from '@sapper/app';
 	import ListErrors from '../_components/ListErrors.svelte';
 	import * as api from 'api.js';
 
@@ -49,7 +49,7 @@
 						</fieldset>
 
 						<button class="btn btn-lg pull-xs-right btn-primary" type="button" on:click={submit}>
-							Publish Article
+							บันทึก
 						</button>
 					</fieldset>
 				</form>

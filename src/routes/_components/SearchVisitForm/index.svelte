@@ -1,7 +1,7 @@
 <script>
 	import {stores} from '@sapper/app';
 	import Prison from './Prison.svelte';
-	import VisitorPreview from './VisitorPreview.svelte';
+	import VisitsPreview from './VisitsPreview.svelte';
 	import QuickSearchBar from "svelte-quicksearch-bar";
 	import * as api from 'api.js';
 
@@ -21,11 +21,12 @@
 	let query;
 	let prison;
 	let visitors;
+	let visits;
 	let prison_id = '';
 	let location = '';
 	async function submit(event) {
 		query = `prisons/get/${prison_id}`;
-		({prison, visitors} = await api.get(query, $session.user && $session.user.token));
+		({prison, visitors, visits} = await api.get(query, $session.user && $session.user.token));
 		location = prison.location;
 	}
 	$: getData();
@@ -55,9 +56,9 @@
 {#if prison}
 
 	{#if prison.first_name !== null}
-		<Prison {prison} user={$session.user} bind:location/>
+		<Prison {prison} {visitors} user={$session.user} bind:location />
 		<hr>
-		<VisitorPreview {visitors} user={$session.user}/>
+		<VisitsPreview {visits} user={$session.user}/>
 	{:else}
 		<div>
 			<div >ไม่พบข้อมูลผู้ต้องขัง..</div>
