@@ -4,6 +4,7 @@
 	export let location;
 	export let selected;
 	export let visitors;
+	let allow = 1;
 	let prison_id = "";
 	let locations = [
 		'พบ.',
@@ -22,7 +23,7 @@
 			alert("กรุณาเลือกผู้ขอเยี่ยมค่ะ!");
 			return;
 		}
-		const response = await post(`visit/save`, { prison_id, visitor_name});
+		const response = await post(`visit/save`, { prison_id, visitor_name ,allow});
 		//if (typeof response["error"] )
 		if (typeof response["error"] !== undefined && response["error"] === 1 ) {
 			alert("มีรายการขอเยี่ยมในสัปดาห์นี้แล้วค่ะ");
@@ -61,6 +62,16 @@
 					<option>{visitor.first_name} {visitor.last_name}</option>
 				{/each}
 			</select>
+			<br/>
+			<br/>
+			<label>
+				<input name="allow" value={0} type=radio bind:group={allow}  >
+				ไม่อนุญาติ
+			</label>
+			<label>
+				<input name="allow" value={1} type=radio bind:group={allow}  >
+				อนุญาติ
+			</label>
 			<button class="btn btn-lg pull-xs-right btn-primary" type="button" on:click={submit}>
 				บันทึก
 			</button>
