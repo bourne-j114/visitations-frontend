@@ -65,7 +65,7 @@
 			<br/>
 			<br/>
 			<label>
-				<input name="allow" value={0} type=radio bind:group={allow}  >
+				<input name="allow" value={0} type=radio bind:group={allow} >
 				ไม่อนุญาติ
 			</label>
 			<label>
