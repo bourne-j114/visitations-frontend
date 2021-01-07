@@ -13,13 +13,12 @@
 
 	const { session } = stores();
 
-	let email = '';
+	let userid = '';
 	let password = '';
 	let errors = null;
 
 	async function submit(event) {
-		console.log("*0000 >>> press submit")
-		const response = await post(`auth/login`, { email, password });
+		const response = await post(`auth/login`, { userid, password });
 		console.log('* >>> response = ', response)
 		// TODO handle network errors
 		errors = response.errors;
@@ -32,26 +31,26 @@
 </script>
 
 <svelte:head>
-	<title>Sign in • Conduit</title>
+	<title>ล็อคอิน</title>
 </svelte:head>
 
 <div class="auth-page">
 	<div class="container page">
 		<div class="row">
 			<div class="col-md-6 offset-md-3 col-xs-12">
-				<h1 class="text-xs-center">Sign In</h1>
+				<h1 class="text-xs-center">ล็อคอิน</h1>
 				<p class="text-xs-center">
-					<a href="/register">Need an account?</a>
+					<a href="/register">ลงทะเบียน ?</a>
 				</p>
 
 				<ListErrors {errors}/>
 
 				<form on:submit|preventDefault={submit}>
 					<fieldset class="form-group">
-						<input class="form-control form-control-lg" type="email" required placeholder="Email" bind:value={email}>
+						<input class="form-control form-control-lg" type="text" required placeholder="ชื่อผู้ใช้งาน" bind:value={userid}>
 					</fieldset>
 					<fieldset class="form-group">
-						<input class="form-control form-control-lg" type="password" required placeholder="Password" bind:value={password}>
+						<input class="form-control form-control-lg" type="password" required placeholder="รหัสผ่าน" bind:value={password}>
 					</fieldset>
 					<button class="btn btn-lg btn-primary pull-xs-right" type="submit">
 						Sign in
