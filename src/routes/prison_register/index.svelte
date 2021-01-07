@@ -20,7 +20,7 @@
         birth_day,
         picture_paht,
         location,
-        prison_type,
+        prison_type = 2,
         case_detail,
         punish,
         remark,
@@ -131,8 +131,8 @@
         json = JSON.stringify(json);
         formData.append('data', json);
         formData.append('dataFile', files[0]);
-        const response = await api.upload(`prisons/create`,formData ,$session.user && $session.user.token);
-
+        const response = await api.upload(`prisons/register`,formData ,$session.user && $session.user.token);
+       console.log("XXX",response);
         errors = response.errors;
 
         if (response.user) {
@@ -160,7 +160,13 @@
                     </fieldset>
                     <fieldset class="form-group">
                         สน.ท้องที่:<input type="text" required placeholder="สน.ท้องที่" bind:value={police_station}>
-                        ประเภทนักโทษ:<input type="text" required placeholder="ประเภทนักโทษ" bind:value={prison_type}>
+                        ประเภทนักโทษ:<label>
+                        <input name="prison_type" value={1} type=radio bind:group={prison_type}>
+                        ผู้ต้องขัง
+                    </label>
+                        <label><input  name="prison_type"  value={2} type=radio bind:group={prison_type}>
+                            ฟื้นฟู
+                        </label>
                     </fieldset>
                     <fieldset class="form-group">
                         ถูกจับเมื่อวันที่: <input type="date" required placeholder="ถูกจับเมื่อวันที่"
@@ -171,8 +177,7 @@
                     <fieldset class="form-group">
                         รหัสผู้ต้องขัง: <input type="text" required placeholder="รหัสผู้ต้องขัง"
                                                   bind:value={catch_date}>
-                        รูปภาพ: <input type="file" required
-                                                  bind:value={picture_paht}>
+                        รูปภาพ: <input type="file"  bind:files>
                     </fieldset>
                     <fieldset class="form-group">
                         ชื่อ:<input type="text" required placeholder="ชื่อ" bind:value={first_name}>
