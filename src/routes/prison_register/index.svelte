@@ -9,7 +9,7 @@
 <script>
     import {goto, stores} from '@sapper/app';
     import ListErrors from '../_components/ListErrors.svelte';
-    import {upload} from 'utils.js';
+    import * as api from 'api.js';
 
     const {session} = stores();
     let prison_id,
@@ -131,7 +131,7 @@
         json = JSON.stringify(json);
         formData.append('data', json);
         formData.append('dataFile', files[0]);
-        const response = await upload(`prisons/create`, );
+        const response = await api.upload(`prisons/create`,formData ,$session.user && $session.user.token);
 
         errors = response.errors;
 
