@@ -12,8 +12,8 @@
     import * as api from 'api.js';
 
     const {session} = stores();
-    let prison_id,
-        gender = 1,
+    let prison_id = "00001",
+        gender = "m",
         first_name,
         last_name,
         nick_name,
@@ -71,7 +71,7 @@
     let dataFile = null;
     async function submit(event) {
         const formData = new FormData();
-        let json = {
+        let   profile = {
             prison_id,
             gender,
             first_name,
@@ -81,21 +81,9 @@
             picture_paht,
             location,
             prison_type,
-            case_detail,
-            punish,
             remark,
             id_card,
-            jail_date,
-            jail_status,
-            catch_date,
-            receive_date,
             address_no,
-            court_order,
-            case_no,
-            police_station,
-            scheduled_release15,
-            scheduled_release45,
-            cause_release,
             moo,
             subdistric,
             distric,
@@ -124,10 +112,19 @@
             history_punish_year,
             history_punish_month,
             history_punish_day,
-            be_punished,
             prove_pass_num,
             cur_num
         };
+        let case_datail = {
+            prison_id,
+            court_order,
+            case_no,
+            case_detail,
+            police_station,
+            catch_date,
+            receive_date,
+        };
+        let json = {profile,case_datail};
         json = JSON.stringify(json);
         formData.append('data', json);
         formData.append('dataFile', files[0]);
@@ -161,7 +158,7 @@
                         คำสั่งศาล:<input type="text" required size="35" placeholder="คำสั่งศาล" bind:value={court_order}>
                     </fieldset>
                     <fieldset class="form-group">
-                        พฤติการณ์และสาเหตุการกระทำผิด: <input type="text" required size="50" bind:value={punish}>
+                        พฤติการณ์และสาเหตุการกระทำผิด: <input type="text" required size="50" bind:value={case_detail}>
                     </fieldset>
                     <fieldset class="form-group">
                         สน.ท้องที่:<input type="text" required size="30" placeholder="สน.ท้องที่" bind:value={police_station}>
@@ -193,11 +190,11 @@
                     </fieldset>
                     <fieldset class="form-group">
                         เพศ: <label>
-                        <input name="allow" value={1} type=radio bind:group={gender}>
+                        <input name="allow" value="m" type=radio bind:group={gender}>
                         ชาย
                     </label>
                         <label>
-                            <input name="allow" value={0} type=radio bind:group={gender}>
+                            <input name="allow" value="f" type=radio bind:group={gender}>
                             หญิง
                         </label>
 
@@ -244,11 +241,11 @@
                     </fieldset>
                     <fieldset class="form-group">
                         สถานภาพ: <input type="text" required placeholder="สถานภาพ" bind:value={status}>
-                        จำนวนบุตร: <input type="text" size="3" bind:value={child}>
+                        จำนวนบุตร: <input type="number" size="3" bind:value={child}>
                     </fieldset>
                     <fieldset class="form-group">
-                        มีพี่น้องร่วม: <input type="text" required size="3" bind:value={sibling}>คน
-                        เป็นบุตรคนที่:<input type="text" required size="3" bind:value={child_in_a_child}>
+                        มีพี่น้องร่วม: <input type="number" required size="3" bind:value={sibling}>คน
+                        เป็นบุตรคนที่:<input type="number" required size="3" bind:value={child_in_a_child}>
                         พักอาศัยบ้านของ: <input type="text" required placeholder="พักอาศัยบ้านของ" bind:value={home_owner}>
                     </fieldset>
                     <fieldset class="form-group">
@@ -260,14 +257,14 @@
                     <fieldset class="form-group">
                         ประวัติการต้องโทษ: <input type="text" required placeholder="ประวัติการต้องโทษ"
                                                   bind:value={history_punish}>
-                        ระยะเวลา: <input type="text" required size="2" bind:value={history_punish_year}>
-                        ปี<input type="text" required size="2" bind:value={history_punish_month}>
-                        เดือน<input type="text" required size="2" bind:value={history_punish_day}>วัน
+                        ระยะเวลา: <input type="number" required size="2" bind:value={history_punish_year}>
+                        ปี<input type="number" required size="2" bind:value={history_punish_month}>
+                        เดือน<input type="number" required size="2" bind:value={history_punish_day}>วัน
                     </fieldset>
                     <fieldset class="form-group">
-                        จำนวนครั้งที่ผ่านการตรวจพิสูจน์: <input type="text" required size="3"
+                        จำนวนครั้งที่ผ่านการตรวจพิสูจน์: <input type="number" required size="3"
                                                                 bind:value={prove_pass_num}>ครั้ง
-                        เคยผ่านการบำบัด: <input type="text" required size="3" bind:value={cur_num}>ครั้ง
+                        เคยผ่านการบำบัด: <input type="number" required size="3" bind:value={cur_num}>ครั้ง
                     </fieldset>
                     <button class="btn btn-lg btn-primary pull-xs-right">
                         บันทึก
