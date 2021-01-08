@@ -128,7 +128,7 @@
         json = JSON.stringify(json);
         formData.append('data', json);
         formData.append('dataFile', files[0]);
-        const response = await api.upload(`prisons/register`,formData ,$session.user && $session.user.token);
+        const response = await api.upload(`prisons/register/${prison_id}`,formData ,$session.user && $session.user.token);
        console.log("XXX",response);
         errors = response.errors;
 
