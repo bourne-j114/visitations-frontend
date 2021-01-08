@@ -158,13 +158,13 @@
                     <hr>
                     <fieldset class="form-group">
                         หมายเลขคดี:<input type="text" required placeholder="หมายเลขคดี" bind:value={case_no}>
-                        คำสั่งศาล:<input type="text" required placeholder="คำสั่งศาล" bind:value={court_order}>
+                        คำสั่งศาล:<input type="text" required size="35" placeholder="คำสั่งศาล" bind:value={court_order}>
                     </fieldset>
                     <fieldset class="form-group">
-                        พฤติการณ์และสาเหตุการกระทำผิด: <input type="text" required size="60" bind:value={punish}>
+                        พฤติการณ์และสาเหตุการกระทำผิด: <input type="text" required size="50" bind:value={punish}>
                     </fieldset>
                     <fieldset class="form-group">
-                        สน.ท้องที่:<input type="text" required placeholder="สน.ท้องที่" bind:value={police_station}>
+                        สน.ท้องที่:<input type="text" required size="30" placeholder="สน.ท้องที่" bind:value={police_station}>
                         ประเภทนักโทษ:<label>
                         <input name="prison_type" value={1} type=radio bind:group={prison_type}>
                         ผู้ต้องขัง
@@ -189,7 +189,7 @@
                     <fieldset class="form-group">
                         ชื่อ:<input type="text" required placeholder="ชื่อ" bind:value={first_name}>
                         นามสกุล:<input type="text" required placeholder="นามสกุล" bind:value={last_name}>
-                        ชื่อเล่น:<input type="text" required placeholder="ชื่อเล่น" bind:value={nick_name}>
+                        ชื่อเล่น:<input type="text" required size="10" placeholder="ชื่อเล่น" bind:value={nick_name}>
                     </fieldset>
                     <fieldset class="form-group">
                         เพศ: <label>
@@ -201,8 +201,8 @@
                             หญิง
                         </label>
 
-                        เลขบัตรประชาชน: <input type="text" required placeholder="เลขบัตร" bind:value={id_card}>
-                        วัน เดือน ปี เกิด: <input type="text" required placeholder="วันเกิด" bind:value={birth_day}>
+                        เลขบัตรประชาชน: <input type="text" required size="12" placeholder="เลขบัตร" bind:value={id_card}>
+                        วัน เดือน ปี เกิด: <input type="text" required size="10" placeholder="วันเกิด" bind:value={birth_day}>
                     </fieldset>
                     <h4>ที่อยู่ตามทะเบียนบ้าน</h4>
                     <hr>
@@ -230,9 +230,9 @@
                     <h4>ข้อมูลประวัติส่วนตัว</h4>
                     <hr>
                     <fieldset class="form-group">
-                        เชื้อชาติ: <input type="text" required placeholder="เชื้อชาติ" bind:value={race}>
-                        สัญชาติ: <input type="text" required placeholder="สัญชาติ" bind:value={nationality}>
-                        ศาสนา: <input type="text" required placeholder="ศาสนา" bind:value={religion}>
+                        เชื้อชาติ: <input type="text" required size="14" placeholder="เชื้อชาติ" bind:value={race}>
+                        สัญชาติ: <input type="text" required size="14" placeholder="สัญชาติ" bind:value={nationality}>
+                        ศาสนา: <input type="text" required size="14" placeholder="ศาสนา" bind:value={religion}>
                     </fieldset>
                     <fieldset class="form-group">
                         ตำหนิ: <input type="text" required placeholder="ตำหนิ" size="60" bind:value={blame}>
@@ -247,27 +247,27 @@
                         จำนวนบุตร: <input type="text" size="3" bind:value={child}>
                     </fieldset>
                     <fieldset class="form-group">
-                        มีพี่น้องร่วม: <input type="text" required size="3" bind:value={sibling}>
+                        มีพี่น้องร่วม: <input type="text" required size="3" bind:value={sibling}>คน
                         เป็นบุตรคนที่:<input type="text" required size="3" bind:value={child_in_a_child}>
                         พักอาศัยบ้านของ: <input type="text" required placeholder="พักอาศัยบ้านของ" bind:value={home_owner}>
                     </fieldset>
                     <fieldset class="form-group">
                         อาชีพ: <input type="text" required placeholder="อาชีพ" bind:value={occupation}>
-                        รายได้: <input type="text" required placeholder="รายได้" bind:value={income}>
+                        รายได้: <input type="text" required placeholder="รายได้" bind:value={income}>บาท
                     </fieldset>
                     <h4>ประวัติการต้องโทษ</h4>
                     <hr>
                     <fieldset class="form-group">
                         ประวัติการต้องโทษ: <input type="text" required placeholder="ประวัติการต้องโทษ"
                                                   bind:value={history_punish}>
-                        ระยะเวลา: <input type="text" required size="3" bind:value={history_punish_year}>
-                        ปี<input type="text" required size="3" bind:value={history_punish_month}>
-                        เดือน<input type="text" required size="3" bind:value={history_punish_day}>วัน
+                        ระยะเวลา: <input type="text" required size="2" bind:value={history_punish_year}>
+                        ปี<input type="text" required size="2" bind:value={history_punish_month}>
+                        เดือน<input type="text" required size="2" bind:value={history_punish_day}>วัน
                     </fieldset>
                     <fieldset class="form-group">
                         จำนวนครั้งที่ผ่านการตรวจพิสูจน์: <input type="text" required size="3"
-                                                                bind:value={prove_pass_num}>
-                        เคยผ่านการบำบัด: <input type="text" required size="3" bind:value={cur_num}>
+                                                                bind:value={prove_pass_num}>ครั้ง
+                        เคยผ่านการบำบัด: <input type="text" required size="3" bind:value={cur_num}>ครั้ง
                     </fieldset>
                     <button class="btn btn-lg btn-primary pull-xs-right">
                         บันทึก
