@@ -150,13 +150,18 @@
     <div class="container page">
         <div class="row">
             <div class="col-md-10 offset-md-3 col-xs-12">
-                <h1 class="text-xs-center">ลงทะเบียนประวัติ</h1>
+                <h1 class="text-xs-center">บันทึกคดี</h1>
                 <ListErrors {errors}/>
 
                 <form on:submit|preventDefault={submit}>
+                    <h4>คดี</h4>
+                    <hr>
                     <fieldset class="form-group">
                         หมายเลขคดี:<input type="text" required placeholder="หมายเลขคดี" bind:value={case_no}>
                         คำสั่งศาล:<input type="text" required placeholder="คำสั่งศาล" bind:value={court_order}>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        พฤติการณ์และสาเหตุการกระทำผิด: <input type="text" required size="60" bind:value={punish}>
                     </fieldset>
                     <fieldset class="form-group">
                         สน.ท้องที่:<input type="text" required placeholder="สน.ท้องที่" bind:value={police_station}>
@@ -174,6 +179,8 @@
                         รับตัวเมื่อวันที่: <input type="date" required placeholder="รับตัวเมื่อวันที่"
                                                   bind:value={receive_date}>
                     </fieldset>
+                    <h4>ประวัติส่วนตัว</h4>
+                    <hr>
                     <fieldset class="form-group">
                         รหัสผู้ต้องขัง: <input type="text" required placeholder="รหัสผู้ต้องขัง"
                                                   bind:value={catch_date}>
@@ -198,6 +205,7 @@
                         วัน เดือน ปี เกิด: <input type="text" required placeholder="วันเกิด" bind:value={birth_day}>
                     </fieldset>
                     <h4>ที่อยู่ตามทะเบียนบ้าน</h4>
+                    <hr>
                     <fieldset class="form-group">
                         บ้านเลขที่: <input type="text" size="3" required bind:value={address_no}>
                         หมู่ที่:<input type="text" size="3" required bind:value={moo}>
@@ -208,6 +216,7 @@
                         จังหวัด: <input type="text" required placeholder="จังหวัด" bind:value={province}>
                     </fieldset>
                     <h4>ที่อยู่ปัจจุบัน</h4>
+                    <hr>
                     <fieldset class="form-group">
                         บ้านเลขที่: <input type="text" required size="3" bind:value={stay_address_no}>
                         หมู่ที่:<input type="text" required size="3" bind:value={stay_moo}>
@@ -218,8 +227,8 @@
                         จังหวัด: <input type="text" required placeholder="จังหวัด" bind:value={stay_province}>
                     </fieldset>
                     <br/>
-
-
+                    <h4>ข้อมูลประวัติส่วนตัว</h4>
+                    <hr>
                     <fieldset class="form-group">
                         เชื้อชาติ: <input type="text" required placeholder="เชื้อชาติ" bind:value={race}>
                         สัญชาติ: <input type="text" required placeholder="สัญชาติ" bind:value={nationality}>
@@ -240,12 +249,14 @@
                     <fieldset class="form-group">
                         มีพี่น้องร่วม: <input type="text" required size="3" bind:value={sibling}>
                         เป็นบุตรคนที่:<input type="text" required size="3" bind:value={child_in_a_child}>
-                        อาศัยบ้านของ: <input type="text" required placeholder="อาศัยบ้านของ" bind:value={home_owner}>
+                        พักอาศัยบ้านของ: <input type="text" required placeholder="พักอาศัยบ้านของ" bind:value={home_owner}>
                     </fieldset>
                     <fieldset class="form-group">
                         อาชีพ: <input type="text" required placeholder="อาชีพ" bind:value={occupation}>
                         รายได้: <input type="text" required placeholder="รายได้" bind:value={income}>
                     </fieldset>
+                    <h4>ประวัติการต้องโทษ</h4>
+                    <hr>
                     <fieldset class="form-group">
                         ประวัติการต้องโทษ: <input type="text" required placeholder="ประวัติการต้องโทษ"
                                                   bind:value={history_punish}>
@@ -257,9 +268,6 @@
                         จำนวนครั้งที่ผ่านการตรวจพิสูจน์: <input type="text" required size="3"
                                                                 bind:value={prove_pass_num}>
                         เคยผ่านการบำบัด: <input type="text" required size="3" bind:value={cur_num}>
-                    </fieldset>
-                    <fieldset class="form-group">
-                        พฤติการณ์และสาเหตุการกระทำผิด: <input type="text" required size="60" bind:value={punish}>
                     </fieldset>
                     <button class="btn btn-lg btn-primary pull-xs-right">
                         บันทึก
