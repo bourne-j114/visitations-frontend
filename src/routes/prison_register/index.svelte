@@ -9,133 +9,104 @@
 <script>
     import {goto, stores} from '@sapper/app';
     import ListErrors from '../_components/ListErrors.svelte';
+    import QuickSearchBar from "svelte-quicksearch-bar";
     import * as api from 'api.js';
 
     const {session} = stores();
-    let prison_id = "00001",
-        gender = "m",
-        first_name,
-        last_name,
-        nick_name,
-        birth_day,
-        picture_paht,
-        location,
-        prison_type = 2,
-        case_detail,
-        punish,
-        remark,
-        id_card,
-        jail_date,
-        jail_status,
-        catch_date,
-        receive_date,
-        address_no,
-        court_order,
-        case_no,
-        police_station,
-        scheduled_release15,
-        scheduled_release45,
-        cause_release,
-        moo,
-        subdistric,
-        distric,
-        province,
-        nation,
-        race,
-        nationality,
-        religion,
-        blame,
-        education,
-        edu_institution,
-        edu_address1,
-        status,
-        child,
-        sibling,
-        child_in_a_child,
-        home_owner,
-        stay_address_no,
-        stay_moo,
-        stay_subdistric,
-        stay_distric,
-        stay_province,
-        occupation,
-        income,
-        history_punish,
-        history_punish_year,
-        history_punish_month,
-        history_punish_day,
-        be_punished,
-        prove_pass_num,
-        cur_num, errors;
+    let profile = {
+        prison_id: "",
+        gender: "m",
+        first_name: "",
+        last_name: "",
+        nick_name: "",
+        birth_day: "",
+        prison_type: 1,
+        remark: "",
+        id_card: "",
+        address_no: "",
+        moo: "",
+        subdistric: "",
+        distric: "",
+        province: "",
+        nation: "",
+        race: "",
+        nationality: "",
+        religion: "",
+        blame: "",
+        education: "",
+        edu_institution: "",
+        status: "",
+        child: 0,
+        sibling: 0,
+        child_in_a_child: 0,
+        home_owner: "",
+        stay_address_no: "",
+        stay_moo: "",
+        stay_subdistric: "",
+        stay_distric: "",
+        stay_province: "",
+        occupation: "",
+        income: "",
+        history_punish: "",
+        history_punish_year: "",
+        history_punish_month: "",
+        history_punish_day: "",
+        prove_pass_num: "",
+        cur_num: ""
+    };
+   let case_detail = {
+        prison_id: "",
+        court_order: "",
+        case_no: "",
+        case_detail: "",
+        police_station: "",
+        catch_date: "",
+        receive_date: "",
+    };
+    let prison_id = "6331201960";
+    case_detail.prison_type = 1;
+    let errors;
+    let options = [];
+    let selectedOption;
+    $: getData();
+    async function getData() {
+        options = [];
+        let query = `prisons/list`;
+        (options  = await api.get(query, $session.user && $session.user.token));
+    }
+    async function getPrisonInfo() {
+        prison_id = profile.prison_id;
+        let query = `prisons/getinfo/${prison_id}`;
+        profile = await api.get(query, $session.user && $session.user.token);
+        console.log(profile);
+    }
+
     let files;
     let dataFile = null;
     async function submit(event) {
         const formData = new FormData();
-        let   profile = {
-            prison_id,
-            gender,
-            first_name,
-            last_name,
-            nick_name,
-            birth_day,
-            picture_paht,
-            location,
-            prison_type,
-            remark,
-            id_card,
-            address_no,
-            moo,
-            subdistric,
-            distric,
-            province,
-            nation,
-            race,
-            nationality,
-            religion,
-            blame,
-            education,
-            edu_institution,
-            edu_address1,
-            status,
-            child,
-            sibling,
-            child_in_a_child,
-            home_owner,
-            stay_address_no,
-            stay_moo,
-            stay_subdistric,
-            stay_distric,
-            stay_province,
-            occupation,
-            income,
-            history_punish,
-            history_punish_year,
-            history_punish_month,
-            history_punish_day,
-            prove_pass_num,
-            cur_num
-        };
-        let case_datail = {
-            prison_id,
-            court_order,
-            case_no,
-            case_detail,
-            police_station,
-            catch_date,
-            receive_date,
-        };
-        let json = {profile,case_datail};
+
+        let json = {profile,case_detail};
         json = JSON.stringify(json);
         formData.append('data', json);
-        formData.append('dataFile', files[0]);
-        const response = await api.upload(`prisons/register/${prison_id}`,formData ,$session.user && $session.user.token);
-       console.log("XXX",response);
-        errors = response.errors;
+        console.log(typeof files)
+        if (typeof files !== "undefined" )
+           formData.append('dataFile', files[0]);
 
-        if (response.user) {
-            $session.user = response.user;
-            goto('/');
-        }
+        const response = await api.upload(`prisons/register/${prison_id}`,formData)
+            .then(function (datums) {
+                console.log(datums);
+            })
+            .catch(function (err) {
+                console.error('Augh, there was an error!', err.statusText);
+            });
+
+        console.log("XXX",response);
+    }
+    const onPick = e => {
+        selectedOption = e.detail;
+        profile.prison_id = selectedOption['prison_id'];
+        getPrisonInfo()
     }
 </script>
 
@@ -154,117 +125,121 @@
                     <h4>คดี</h4>
                     <hr>
                     <fieldset class="form-group">
-                        หมายเลขคดี:<input type="text" required placeholder="หมายเลขคดี" bind:value={case_no}>
-                        คำสั่งศาล:<input type="text" required size="35" placeholder="คำสั่งศาล" bind:value={court_order}>
+                        หมายเลขคดี:<input type="text" required placeholder="หมายเลขคดี" bind:value={case_detail.case_no}>
+                        คำสั่งศาล:<input type="text" required size="35" placeholder="คำสั่งศาล" bind:value={case_detail.court_order}>
                     </fieldset>
                     <fieldset class="form-group">
-                        พฤติการณ์และสาเหตุการกระทำผิด: <input type="text" required size="50" bind:value={case_detail}>
+                        พฤติการณ์และสาเหตุการกระทำผิด: <input type="text" required size="50" bind:value={case_detail.case_detail}>
                     </fieldset>
                     <fieldset class="form-group">
-                        สน.ท้องที่:<input type="text" required size="30" placeholder="สน.ท้องที่" bind:value={police_station}>
+                        สน.ท้องที่:<input type="text" required size="30" placeholder="สน.ท้องที่" bind:value={case_detail.police_station}>
                         ประเภทนักโทษ:<label>
-                        <input name="prison_type" value={1} type=radio bind:group={prison_type}>
+                        <input name="prison_type" value={1} type=radio bind:group={case_detail.prison_type}>
                         ผู้ต้องขัง
                     </label>
-                        <label><input  name="prison_type"  value={2} type=radio bind:group={prison_type}>
+                        <label><input  name="prison_type"  value={2} type=radio bind:group={case_detail.prison_type}>
                             ฟื้นฟู
                         </label>
                     </fieldset>
                     <fieldset class="form-group">
                         ถูกจับเมื่อวันที่: <input type="date" required placeholder="ถูกจับเมื่อวันที่"
-                                                  bind:value={catch_date}>
+                                                  bind:value={case_detail.catch_date}>
                         รับตัวเมื่อวันที่: <input type="date" required placeholder="รับตัวเมื่อวันที่"
-                                                  bind:value={receive_date}>
+                                                  bind:value={case_detail.receive_date}>
                     </fieldset>
                     <h4>ประวัติส่วนตัว</h4>
                     <hr>
                     <fieldset class="form-group">
+                        <QuickSearchBar {options} on:pick={onPick} keys={['prison_id', 'full_name']} />
+
+                        <p>กด CTRL + K เพื่อค้นหาผู้ตัองขัง)</p>
                         รหัสผู้ต้องขัง: <input type="text" required placeholder="รหัสผู้ต้องขัง"
-                                                  bind:value={catch_date}>
+                                                  bind:value={profile.prison_id}>
                         รูปภาพ: <input type="file"  bind:files>
                     </fieldset>
+
                     <fieldset class="form-group">
-                        ชื่อ:<input type="text" required placeholder="ชื่อ" bind:value={first_name}>
-                        นามสกุล:<input type="text" required placeholder="นามสกุล" bind:value={last_name}>
-                        ชื่อเล่น:<input type="text" required size="10" placeholder="ชื่อเล่น" bind:value={nick_name}>
+                        ชื่อ:<input type="text" required placeholder="ชื่อ" bind:value={profile.first_name}>
+                        นามสกุล:<input type="text" required placeholder="นามสกุล" bind:value={profile.last_name}>
+                        ชื่อเล่น:<input type="text" required size="10" placeholder="ชื่อเล่น" bind:value={profile.nick_name}>
                     </fieldset>
                     <fieldset class="form-group">
                         เพศ: <label>
-                        <input name="allow" value="m" type=radio bind:group={gender}>
+                        <input name="allow" value="m" type=radio bind:group={profile.gender}>
                         ชาย
                     </label>
                         <label>
-                            <input name="allow" value="f" type=radio bind:group={gender}>
+                            <input name="allow" value="f" type=radio bind:group={profile.gender}>
                             หญิง
                         </label>
 
-                        เลขบัตรประชาชน: <input type="text" required size="12" placeholder="เลขบัตร" bind:value={id_card}>
-                        วัน เดือน ปี เกิด: <input type="text" required size="10" placeholder="วันเกิด" bind:value={birth_day}>
+                        เลขบัตรประชาชน: <input type="text" required size="12" placeholder="เลขบัตร" bind:value={profile.id_card}>
+                        วัน เดือน ปี เกิด: <input type="text" required size="10" placeholder="วันเกิด" bind:value={profile.birth_day}>
                     </fieldset>
                     <h4>ที่อยู่ตามทะเบียนบ้าน</h4>
                     <hr>
                     <fieldset class="form-group">
-                        บ้านเลขที่: <input type="text" size="3" required bind:value={address_no}>
-                        หมู่ที่:<input type="text" size="3" required bind:value={moo}>
-                        ตำบล: <input type="text" required placeholder="ตำบล" bind:value={subdistric}>
+                        บ้านเลขที่: <input type="text" style="width: 50px;" required bind:value={profile.address_no}>
+                        หมู่ที่:<input type="text" style="width: 50px;" required bind:value={profile.moo}>
+                        ตำบล: <input type="text" required placeholder="ตำบล" bind:value={profile.subdistric}>
                     </fieldset>
                     <fieldset class="form-group">
-                        อำเภอ:<input type="text" required placeholder="อำเภอ" bind:value={distric}>
-                        จังหวัด: <input type="text" required placeholder="จังหวัด" bind:value={province}>
+                        อำเภอ:<input type="text" required placeholder="อำเภอ" bind:value={profile.distric}>
+                        จังหวัด: <input type="text" required placeholder="จังหวัด" bind:value={profile.province}>
                     </fieldset>
                     <h4>ที่อยู่ปัจจุบัน</h4>
                     <hr>
                     <fieldset class="form-group">
-                        บ้านเลขที่: <input type="text" required size="3" bind:value={stay_address_no}>
-                        หมู่ที่:<input type="text" required size="3" bind:value={stay_moo}>
-                        ตำบล: <input type="text" required placeholder="ตำบล" bind:value={stay_subdistric}>
+                        บ้านเลขที่: <input type="text" required style="width: 50px;" bind:value={profile.stay_address_no}>
+                        หมู่ที่:<input type="text" required style="width: 50px;" bind:value={profile.stay_moo}>
+                        ตำบล: <input type="text" required placeholder="ตำบล" bind:value={profile.stay_subdistric}>
                     </fieldset>
                     <fieldset class="form-group">
-                        อำเภอ:<input type="text" required placeholder="อำเภอ" bind:value={stay_distric}>
-                        จังหวัด: <input type="text" required placeholder="จังหวัด" bind:value={stay_province}>
+                        อำเภอ:<input type="text" required placeholder="อำเภอ" bind:value={profile.stay_distric}>
+                        จังหวัด: <input type="text" required placeholder="จังหวัด" bind:value={profile.stay_province}>
                     </fieldset>
                     <br/>
                     <h4>ข้อมูลประวัติส่วนตัว</h4>
                     <hr>
                     <fieldset class="form-group">
-                        เชื้อชาติ: <input type="text" required size="14" placeholder="เชื้อชาติ" bind:value={race}>
-                        สัญชาติ: <input type="text" required size="14" placeholder="สัญชาติ" bind:value={nationality}>
-                        ศาสนา: <input type="text" required size="14" placeholder="ศาสนา" bind:value={religion}>
+                        เชื้อชาติ: <input type="text" required size="14" placeholder="เชื้อชาติ" bind:value={profile.race}>
+                        สัญชาติ: <input type="text" required size="14" placeholder="สัญชาติ" bind:value={profile.nationality}>
+                        ศาสนา: <input type="text" required size="14" placeholder="ศาสนา" bind:value={profile.religion}>
                     </fieldset>
                     <fieldset class="form-group">
-                        ตำหนิ: <input type="text" required placeholder="ตำหนิ" size="60" bind:value={blame}>
+                        ตำหนิ: <input type="text" required placeholder="ตำหนิ" size="60" bind:value={profile.blame}>
                     </fieldset>
                     <fieldset class="form-group">
-                        ระดับการศึกษา: <input type="text" required placeholder="ระดับการศึกษา" bind:value={education}>
+                        ระดับการศึกษา: <input type="text" required placeholder="ระดับการศึกษา" bind:value={profile.education}>
                         ชื่อที่อยู่สถานศึกษา: <input type="text" required placeholder="ชื่อที่อยู่สถานศึกษา"
-                                                     bind:value={edu_institution}>
+                                                     bind:value={profile.edu_institution}>
                     </fieldset>
                     <fieldset class="form-group">
-                        สถานภาพ: <input type="text" required placeholder="สถานภาพ" bind:value={status}>
-                        จำนวนบุตร: <input type="number" size="3" bind:value={child}>
+                        สถานภาพ: <input type="text" required placeholder="สถานภาพ" bind:value={profile.status}>
+                        จำนวนบุตร: <input type="number" style="width: 50px;" bind:value={profile.child}>
                     </fieldset>
                     <fieldset class="form-group">
-                        มีพี่น้องร่วม: <input type="number" required size="3" bind:value={sibling}>คน
-                        เป็นบุตรคนที่:<input type="number" required size="3" bind:value={child_in_a_child}>
-                        พักอาศัยบ้านของ: <input type="text" required placeholder="พักอาศัยบ้านของ" bind:value={home_owner}>
+                        มีพี่น้องร่วม: <input type="number" required style="width: 50px;" bind:value={profile.sibling}>คน
+                        เป็นบุตรคนที่:<input type="number" required style="width: 50px;" bind:value={profile.child_in_a_child}>
+                        พักอาศัยบ้านของ: <input type="text" required placeholder="พักอาศัยบ้านของ" bind:value={profile.home_owner}>
                     </fieldset>
                     <fieldset class="form-group">
-                        อาชีพ: <input type="text" required placeholder="อาชีพ" bind:value={occupation}>
-                        รายได้: <input type="text" required placeholder="รายได้" bind:value={income}>บาท
+                        อาชีพ: <input type="text" required placeholder="อาชีพ" bind:value={profile.occupation}>
+                        รายได้: <input type="text" required placeholder="รายได้" bind:value={profile.income}>บาท
                     </fieldset>
                     <h4>ประวัติการต้องโทษ</h4>
                     <hr>
                     <fieldset class="form-group">
                         ประวัติการต้องโทษ: <input type="text" required placeholder="ประวัติการต้องโทษ"
-                                                  bind:value={history_punish}>
-                        ระยะเวลา: <input type="number" required size="2" bind:value={history_punish_year}>
-                        ปี<input type="number" required size="2" bind:value={history_punish_month}>
-                        เดือน<input type="number" required size="2" bind:value={history_punish_day}>วัน
+                                                  bind:value={profile.history_punish}>
+                        ระยะเวลา: <input type="number" required style="width: 50px;" bind:value={profile.history_punish_year}>
+                        ปี<input type="number" required style="width: 50px;" bind:value={profile.history_punish_month}>
+                        เดือน<input type="number" required style="width: 50px;" bind:value={profile.history_punish_day}>วัน
                     </fieldset>
                     <fieldset class="form-group">
-                        จำนวนครั้งที่ผ่านการตรวจพิสูจน์: <input type="number" required size="3"
-                                                                bind:value={prove_pass_num}>ครั้ง
-                        เคยผ่านการบำบัด: <input type="number" required size="3" bind:value={cur_num}>ครั้ง
+                        จำนวนครั้งที่ผ่านการตรวจพิสูจน์: <input type="number" required style="width: 50px;"
+                                                                bind:value={profile.prove_pass_num}>ครั้ง
+                        เคยผ่านการบำบัด: <input type="number" required style="width: 50px;" bind:value={profile.cur_num}>ครั้ง
                     </fieldset>
                     <button class="btn btn-lg btn-primary pull-xs-right">
                         บันทึก
