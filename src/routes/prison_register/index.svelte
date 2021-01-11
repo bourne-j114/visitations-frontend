@@ -63,7 +63,7 @@
         catch_date: "",
         receive_date: "",
     };
-    let prison_id = "6331201960";
+    let prison_id = "";
     case_detail.prison_type = 1;
     let errors;
     let options = [];
@@ -87,6 +87,7 @@
         const formData = new FormData();
 
         let json = {profile,case_detail};
+        case_detail.prison_id = prison_id;
         json = JSON.stringify(json);
         formData.append('data', json);
         console.log(typeof files)
