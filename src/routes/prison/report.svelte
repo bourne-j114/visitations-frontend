@@ -73,12 +73,11 @@
         prison = null;
         let query = `prisons/getinfo/${prison_id}`;
         ({case_detail,prison} = await api.get(query, $session.user && $session.user.token));
-        console.log(prison);
     }
 </script>
 
 <svelte:head>
-    <title>Sign up • Conduit</title>
+    <title>รายงาน</title>
 </svelte:head>
 
 <style type="text/css">
