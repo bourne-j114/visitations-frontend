@@ -81,122 +81,181 @@
 </svelte:head>
 
 <style type="text/css">
-    html {
-        background: white;
-        color: black;
-        font: 16px Tahoma;
+    * {
+        margin: 0;
+        padding: 0;
     }
+
     body {
-        margin: 2em auto;
-        max-width: 760px;
-        width: 65%;
+        background: white;
     }
-    section {
-        clear: both;
-        margin-top: 3em;
+    .resumeCanvas {
+        margin: 0 auto;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 0.3in;
+        width: 8.5in;
+        height: 12in;
+        background-color: #faffff;
+        -webkit-box-shadow: 0 3px 8px -3px rgba(0, 0, 0, 0.7);
+        box-shadow: 0 3px 8px -3px rgba(0, 0, 0, 0.7);
     }
-    li {
-        list-style-type: disc;
+
+    .gridParent {
+        width: 100%;
+        height: 100%;
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: (1fr)[6] 255px;
+        grid-template-columns: repeat(4, 1fr) 255px;
+        -ms-grid-rows: (1fr)[6];
+        grid-template-rows: repeat(5, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
     }
-    section > ul > li,
-    header > ul > li {
-        list-style-type: none;
-        margin-bottom: .5em;
+
+    .titleHeader {
+        -ms-grid-row: 1;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 5;
+        grid-area: 1 / 1 / 2 / 6;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        margin-bottom: 27px;
+    }
+
+    .titleHeader h3 {
+        font-family: "Quicksand", sans-serif;
+        text-align: right;
+        padding-right: 60px;
+    }
+
+    .leftSummary {
+        -ms-grid-row: 1;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 4;
+        grid-area: 1 / 1 / 5 / 6;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        justify-content: space-evenly;
+        font-size: 16px;
+        font-family: "Quicksand", sans-serif;
     }
 
 
-    @media (max-width: 776px) {
-        ul {
-            margin-left: 0;
-            margin-right: 0;
-            padding-left: 0;
-            padding-right: 0;
-        }
+    .leftSummary h5 {
+        font-style: italic;
     }
-    @media print {
-        html {
-            color: black;
-            font-size: 16px;
-        }
-        body {
-            margin: 1.5em;
-            width: 90%;
-        }
-        section {
-            margin-top: 1em;
-        }
+
+    .leftSummary p {
+        font-size: 16px;
+        margin: 1px;
     }
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .img {
+        width: 150px;
+        height: 150px;
+    }
+    .details-container {
+        flex: 2;
+    }
+
+    .avatar-container {
+        flex: 1;
+    }
+
 </style>
 {#if  prison}
-<h5 class="text-xs-center">แบบสอบประวัติและการจัดทำทะเบียนผู้เข้าการตรวจพิสูจน์</h5>
-<section>
-    <h5>สถานที่ควบคุมตัว สถานที่เพื่อการตรวจพิสูจน์จังหวัดสระแก้ว</h5>
-    <ul id="header-left" title="mail and phone">
-        <li>หมายเลขคดี:{case_detail.case_no} คำสั่งศาล:{case_detail.court_order}</li>
-        <li>พฤติการณ์และสาเหตุการกระทำผิด: {case_detail.case_detail}</li>
-        <li>สน.ท้องที่: {case_detail.police_station}</li>
-        <li>ถูกจับเมื่อวันที่:  {case_detail.catch_date} รับตัวเมื่อวันที่: {case_detail.receive_date}</li>
-    </ul>
-</section>
-<section id="info">
-    <ul>
-        <li>
-            <h5>ประวัติทางสังคมของผู้เข้ารับการตรวจพิสูจน์</h5>
-            <ul>
-                <li>ชื่อ: <strong>{prison.first_name}</strong>  นามสกุล:  <strong>{prison.last_name}</strong>  ชื่อเล่น: <strong>{prison.nick_name}</strong></li>
-                <li>เพศ: <strong>{#if prison.gender === "m"} ชาย {:else} หญิง{/if}</strong> เลขบัตรประชาชน: {prison.id_card} </li>
-                <li>เชื้อชาติ: {prison.race} สัญชาติ: {prison.nationality}  ศาสนา: {prison.religion}</li>
-                <li>ตำหนิ: {prison.blame}</li>
-                <li>วัน เดือน ปี เกิด: {prison.birth_day} อายุ: - </li>
+    <main class="resumeCanvas">
+        <div class="gridParent">
+            <div class="titleHeader">
+                <div class="row">
+                    <div class="avatar-container">
+                        <div class="photo">
+                            <img class="img" src="https://picsum.photos/200" />
+                        </div>
+                    </div>
+                    <div class="details-container">
+                        <div class="content">
+                            <h5>แบบสอบประวัติและการจัดทำทะเบียนผู้เข้าการตรวจพิสูจน์</h5>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="leftSummary">
+                <div >
+                    <p>สถานที่ควบคุมตัว สถานที่เพื่อการตรวจพิสูจน์จังหวัดสระแก้ว</p>
+                    <p>
+                        ถูกจับเมื่อวันที่:  {case_detail.catch_date} รับตัวเมื่อวันที่: {case_detail.receive_date}
+                    </p>
+                    <p>
+                        หมายเลขคดี:{case_detail.case_no} คำสั่งศาล:{case_detail.court_order}
+                    </p>
+                    <p>
+                        สน.ท้องที่: {case_detail.police_station}
+                    </p>
+                    <p>
+                        พฤติการณ์และสาเหตุการกระทำผิด: {case_detail.case_detail}
+                    </p>
+                    <p>
+                       เหตุที่ได้พ้นจำคุก
+                    </p>
 
-            </ul>
-        </li>
-        <li>
-            <h5>ที่อยู่ตามทะเบียนบ้าน</h5>
-            <ul>
-                <li>บ้านเลขที่: {prison.address_no}  หมู่ที่: {prison.moo}  ตำบล: {prison.subdistric}</li>
-                <li>อำเภอ: {prison.distric} จังหวัด: {prison.province}</li>
-            </ul>
-        </li>
-        <li>
-            <h5>ที่อยู่ปัจจุบัน</h5>
-            <ul>
-                <li> บ้านเลขที่: {prison.stay_address_no}   หมู่ที่: {prison.stay_moo} ตำบล: {prison.stay_subdistric}</li>
-                <li>อำเภอ:{prison.stay_distric}   จังหวัด: {prison.stay_province}</li>
-            </ul>
-        </li>
-        <li>
-            <h5>ข้อมูลบุตร</h5>
-            <ul>
-                <li>สถานภาพ: {prison.status} จำนวนบุตร: {prison.child}</li>
-                <li>มีพี่น้องร่วม: {prison.sibling} คน  เป็นบุตรคนที่: {prison.child_in_a_child}  พักอาศัยบ้านของ: {prison.home_owner}</li>
-            </ul>
-        </li>
-        <li>
-            <h5>ประวัติการต้องโทษ</h5>
-            <ul>
-                <li>ประวัติการต้องโทษ: {prison.history_punish} ปี {prison.history_punish_month}  เดือน {prison.history_punish_day} วัน</li>
-            </ul>
-        </li>
-        <li>
-            <h5>อาชีพ</h5>
-            <ul title="occupation">
-                <li>อาชีพ: {prison.occupation} รายได้: {prison.income} บาท</li>
-            </ul>
-        </li>
-        <li>
-            <h5>การศึกษา</h5>
-            <ul title="education">
-                <li>ระดับการศึกษา: {prison.education} ชื่อที่อยู่สถานศึกษา: {prison.edu_institution}</li>
-            </ul>
-        </li>
-        <li>
-            <h5>การจตรวจพิสูจน์</h5>
-            <ul title="education">
-                <li>จำนวนครั้งที่ผ่านการตรวจพิสูจน์:  {prison.prove_pass_num} ครั้ง   เคยผ่านการบำบัด: {prison.cur_num} ครั้ง</li>
-            </ul>
-        </li>
-    </ul>
-</section>
+                    <br>
+                    <h5>ประวัติทางสังคมของผู้เข้ารับการตรวจพิสูจน์</h5>
+                    <p>
+                      ชื่อ: <strong>{prison.first_name}</strong>  นามสกุล:  <strong>{prison.last_name}</strong>  ชื่อเล่น: <strong>{prison.nick_name}</strong>
+                    </p>
+                    <p>เพศ: <strong>{#if prison.gender === "m"} ชาย {:else} หญิง{/if}</strong> เลขบัตรประชาชน: {prison.id_card} </p>
+                    <p>เชื้อชาติ: {prison.race} สัญชาติ: {prison.nationality}  ศาสนา: {prison.religion}</p>
+                    <p>ตำหนิ: {prison.blame}</p>
+                    <p>วัน เดือน ปี เกิด: {prison.birth_day} อายุ: - </p>
+                    <p>
+                        บ้านเลขที่: {prison.address_no}  หมู่ที่: {prison.moo}  ตำบล: {prison.subdistric} อำเภอ: {prison.distric} จังหวัด: {prison.province}
+                    </p>
+                    <p>บ้านเลขที่: {prison.stay_address_no}   หมู่ที่: {prison.stay_moo} ตำบล: {prison.stay_subdistric}  อำเภอ:{prison.stay_distric}   จังหวัด: {prison.stay_province}
+                    </p>
+                    <p>
+                        สถานภาพ: {prison.status} จำนวนบุตร: {prison.child}
+                    </p>
+                    <p>
+                        มีพี่น้องร่วม: {prison.sibling} คน  เป็นบุตรคนที่: {prison.child_in_a_child}  พักอาศัยบ้านของ: {prison.home_owner}
+                    </p>
+                    <p>
+                        ประวัติการต้องโทษ: {prison.history_punish} ปี {prison.history_punish_month}  เดือน {prison.history_punish_day} วัน
+                    </p>
+                   <p>
+                        อาชีพ: {prison.occupation} รายได้: {prison.income} บาท
+                    </p>
+                    <p>
+                        ระดับการศึกษา: {prison.education} ชื่อที่อยู่สถานศึกษา: {prison.edu_institution}
+                    </p>
+                    <p>
+                        จำนวนครั้งที่ผ่านการตรวจพิสูจน์ในสถานที่เพื่อการควบคุมตัวฯ:  {prison.prove_pass_num} ครั้ง   เคยผ่านการบำบัด: {prison.cur_num} ครั้ง
+                    </p>
+                </div>
+            </div>
 
+        </div>
+    </main>
 {/if}
